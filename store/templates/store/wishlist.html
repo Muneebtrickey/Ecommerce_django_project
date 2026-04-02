@@ -1,64 +1,75 @@
-
-
 {% extends "store/layout/main.html" %}
-    
+
+{% block title %} Wishlist | E-Shop {% endblock %}
+
 {% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white" href=" {% url 'cart' %}">wishlist</a>
-        
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">Wishlist</span>
     </div>
 </div>
 
+<div class="py-12 bg-white wishdata">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-10 tracking-tight">Your Wishlist</h1>
 
-
-
-
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-body wishdata">
-
-                    {% if wishlist %}
-                        {% for item in wishlist %}
-                            <div class="row product_data">
-                                <div class="col-md-2 my-auto">
-                                    <img src="{{ item.product.product_image.url }}" height="70px" width="70px" alt="" srcset="">
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <h6>{{ item.product.name }}</h6>
-                                </div>
-                                <div class="col-md-2 my-auto">
-                                    <h6>{{ item.product.selling_price }}</h6>
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <input type="hidden" name="" class="prod_id" value="{{ item.product_id }}">
-                                    {% csrf_token %}
-                                   
-                                   
-                                    <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="btn btn-primary">show product</a>
-                                   
-                                    
-                                </div>
-                                <div class="col-md-2 my-auto">
-                                    <button class="btn btn-danger delete-wishlist-item">Remove</button>
-                                </div>
-                            </div>
-                            {% endfor %}
+        {% if wishlist %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for item in wishlist %}
+            <div class="group relative flex flex-col product_data bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden">
+                <div class="relative aspect-[4/5] w-full overflow-hidden bg-gray-200">
+                    {% if item.product.product_image %}
+                        <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-700">
                     {% else %}
-                        <h1>wishlist is empty</h1>  
+                        <img src="https://via.placeholder.com/400x500?text={{ item.product.name }}" alt="{{ item.product.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-700">
                     {% endif %}
-                
                     
+                    <button type="button" class="delete-wishlist-item absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition shadow-sm">
+                        <i class="fa-solid fa-heart-crack"></i>
+                    </button>
+                </div>
+                
+                <div class="flex-1 p-8 flex flex-col">
+                    <input type="hidden" value="{{ item.product_id }}" class="prod_id">
+                    {% csrf_token %}
+                    
+                    <div class="mb-2">
+                        <span class="text-[10px] font-black text-accent uppercase tracking-widest leading-none bg-teal-50 px-2 py-1 rounded">{{ item.product.category.name }}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">
+                        <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="hover:text-accent transition">
+                            {{ item.product.name }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-500 text-sm line-clamp-2 mb-6 italic leading-relaxed">{{ item.product.small_description }}</p>
+                    
+                    <div class="mt-auto flex items-center justify-between pt-6 border-t border-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-black text-gray-900 tracking-tight">${{ item.product.selling_price|floatformat:2 }}</span>
+                        </div>
+                        <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="inline-flex items-center px-6 py-3 rounded-xl text-xs font-black bg-gray-900 text-white hover:bg-accent transition duration-300 uppercase tracking-widest shadow-lg shadow-gray-200">
+                            View More
+                        </a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <div class="text-center py-32 bg-gray-50 rounded-[3rem] border-4 border-dashed border-gray-100">
+            <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white shadow-xl mb-10 group">
+                <i class="fa-regular fa-heart text-5xl text-gray-200 group-hover:text-red-400 transition duration-500"></i>
+            </div>
+            <h2 class="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">Wishlist is lonely</h2>
+            <p class="text-gray-400 mb-12 italic text-lg max-w-md mx-auto leading-relaxed">Save the items you love and they will appear here. Start exploring our collections.</p>
+            <a href="{% url 'collections' %}" class="inline-flex items-center px-12 py-5 border border-transparent text-xl font-black rounded-2xl text-white bg-accent hover:bg-teal-600 transition shadow-2xl shadow-teal-100 uppercase tracking-widest">
+                Go Exploring
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </div>
-
 {% endblock content %}

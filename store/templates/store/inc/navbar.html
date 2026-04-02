@@ -1,43 +1,52 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link nav {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'collections' %}active{% endif %}" href="{% url 'collections' %}">collections</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" aria-current="page" href="{% url 'cart' %}">Cart</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}" aria-current="page" href="{% url 'wishlist' %}">wishlist</a>
-          </li>
-          {% if request.user.is_authenticated %}
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <!-- Logo and Left Links -->
+      <div class="flex items-center space-x-8">
+        <a href="{% url 'home' %}" class="flex-shrink-0 flex items-center">
+          <span class="text-2xl font-extrabold text-accent tracking-tight">E-SHOP</span>
+        </a>
+        <div class="hidden md:flex space-x-6">
+          <a href="{% url 'home' %}" class="text-sm font-medium {% if request.resolver_match.url_name == 'home' %}text-accent{% else %}text-gray-600 hover:text-accent{% endif %} transition duration-150">Home</a>
+          <a href="{% url 'collections' %}" class="text-sm font-medium {% if request.resolver_match.url_name == 'collections' %}text-accent{% else %}text-gray-600 hover:text-accent{% endif %} transition duration-150 uppercase">Collections</a>
+        </div>
+      </div>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">logout</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">{{request.user}}</a>
-          </li>
-          {% else %}
-           
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'loginpage' %}">login</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register' %}">Register</a>
-          </li>
+      <!-- Right Side: Cart, Wishlist, Auth -->
+      <div class="flex items-center space-x-4">
+        <a href="{% url 'wishlist' %}" class="p-2 text-gray-500 hover:text-accent transition duration-150 relative" title="Wishlist">
+          <i class="fa-regular fa-heart text-xl"></i>
+          {% if wishlist_count %}
+          <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">3</span>
           {% endif %}
+        </a>
+        <a href="{% url 'cart' %}" class="p-2 text-gray-500 hover:text-accent transition duration-150 relative" title="Cart">
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+        </a>
 
-        
-        </ul>
+        <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+
+        {% if request.user.is_authenticated %}
+          <div class="flex items-center space-x-3">
+            <span class="hidden sm:inline text-sm font-semibold text-gray-700">Hi, {{ request.user.username|capfirst }}</span>
+            <a href="{% url 'logout' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none transition duration-150 shadow-sm">
+              Logout
+            </a>
+          </div>
+        {% else %}
+          <div class="flex items-center space-x-3">
+            <a href="{% url 'loginpage' %}" class="text-sm font-medium text-gray-600 hover:text-accent transition">Login</a>
+            <a href="{% url 'register' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-teal-600 focus:outline-none transition duration-150 shadow-sm">
+              Register
+            </a>
+          </div>
+        {% endif %}
+
+        <!-- Mobile Menu Button (Optional, for future implementation) -->
+        <button class="md:hidden p-2 rounded-md text-gray-400 hover:text-accent hover:bg-gray-100 focus:outline-none">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

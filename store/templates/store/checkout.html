@@ -1,117 +1,171 @@
 {% extends "store/layout/main.html" %}
-    
+
+{% block title %} Checkout | E-Shop {% endblock %}
+
 {% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white" href=" {% url 'cart' %}">Checkout</a>
-        
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <a href="{% url 'cart' %}" class="hover:text-accent transition">Cart</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">Checkout</span>
     </div>
 </div>
 
-<div class="container mt-3">
-    <form action="{% url 'placeorder' %}" method="post">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-7 ">
-                <div class="card shadow">
-                    <div class="card-body shadow">
-                        <h4>Details</h4>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="">First Name</label>
-                            <input type="text" name="fname" class="form-control" placeholder="enter first name" value="">
-
+<div class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form action="{% url 'placeorder' %}" method="post">
+            {% csrf_token %}
+            <div class="lg:grid lg:grid-cols-12 lg:gap-x-16 lg:items-start">
+                
+                <!-- Shipping Information -->
+                <div class="lg:col-span-7">
+                    <h2 class="text-3xl font-black text-gray-900 mb-8 uppercase tracking-tighter">Shipping Details</h2>
+                    
+                    <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">First Name</label>
+                            <input type="text" name="fname" required placeholder="Muneeb" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Last Name</label>
-                            <input type="text" name="lname" class="form-control" placeholder="enter first name" value="">
 
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Last Name</label>
+                            <input type="text" name="lname" required placeholder="Khan" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Email</label>
-                            <input type="text" name="email" class="form-control" placeholder="enter first name" value="">
 
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
+                            <input type="email" name="email" required placeholder="muneeb.khan@example.com" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="enter first name" value="">
 
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Phone Number</label>
+                            <input type="text" name="phone" required placeholder="+92 300 1234567" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-12">
-                            <label for="">Address</label>
-                          <textarea name="address" id="" class="form-control" cols="30" rows="10"></textarea>
 
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Street Address</label>
+                            <textarea name="address" rows="4" required placeholder="University Road, Phase 3" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition"></textarea>
                         </div>
-                        <div class="col-md-6">
-                            <label for="">City</label>
-                            <input name="city" type="text" class="form-control" placeholder="enter first name" value="">
 
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">City</label>
+                            <input type="text" name="city" required placeholder="Peshawar" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">State</label>
-                            <input name="state" type="text" class="form-control" placeholder="enter first name" value="">
 
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">State / Province</label>
+                            <input type="text" name="state" required placeholder="KPK" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Country</label>
-                            <input name="country" type="text" class="form-control" placeholder="enter first name" value="">
 
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Country</label>
+                            <input type="text" name="country" required placeholder="Pakistan" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
-                        <div class="col-md-6">
-                            <label for="">Pin Code</label>
-                            <input name="pincode" type="text" class="form-control" placeholder="enter first name" value="">
 
+                        <div>
+                            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Postal Code</label>
+                            <input type="text" name="pincode" required placeholder="10001" class="block w-full border-gray-200 rounded-xl shadow-sm focus:ring-accent focus:border-accent sm:text-sm py-3 px-4 transition">
                         </div>
- 
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="car shadow">
-                <div class="card-body">
-                    <h5>Order Summary</h5>
-                    <hr>
-                    {% if cartitems %}
-                    <table class="table table-borders">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+
+                <!-- Order Summary -->
+                <div class="mt-16 lg:mt-0 lg:col-span-5">
+                    <h2 class="text-3xl font-black text-gray-900 mb-8 uppercase tracking-tighter">Your Order</h2>
+                    
+                    <div class="bg-white rounded-[2rem] shadow-2xl shadow-gray-200 border border-gray-100 overflow-hidden sticky top-24">
+                        <!-- Items List -->
+                        <div class="p-8 bg-gray-50/50 border-b border-gray-100 max-h-80 overflow-y-auto">
+                            <ul role="list" class="divide-y divide-gray-100">
                                 {% for item in cartitems %}
-                                    <tr>
-                                        <td>
-                                            <img src="{{ item.product.product_image.url }}" height="50px" width="50px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
-                                            {{ item.product.name }}</td>
-                                        <td>{{ item.product_qty }}</td>
-                                        <td>{{ item.product.selling_price }}</td>
-
-                                    </tr>
+                                <li class="flex py-4">
+                                    <div class="flex-shrink-0 w-16 h-16 rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                                        {% if item.product.product_image %}
+                                            <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                        {% else %}
+                                            {% if 'headphones' in item.product.name|lower %}
+                                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% elif 'smartphone' in item.product.name|lower or 'mobile' in item.product.name|lower %}
+                                                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% elif 'jacket' in item.product.name|lower %}
+                                                <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% elif 'watch' in item.product.name|lower %}
+                                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% elif 'chair' in item.product.name|lower or 'armchair' in item.product.name|lower %}
+                                                <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% else %}
+                                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=150" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="ml-4 flex-1 flex flex-col">
+                                        <div class="flex justify-between text-sm font-black text-gray-900 leading-tight">
+                                            <h3>{{ item.product.name }}</h3>
+                                            <p class="ml-4">${{ item.product.selling_price|floatformat:2 }}</p>
+                                        </div>
+                                        <p class="mt-1 text-[10px] text-gray-400 font-black uppercase tracking-widest">Qty: {{ item.product_qty }}</p>
+                                    </div>
+                                </li>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-                        <h6>Grand Total
-                            <span class="float-end">Rs {{ total_price }} </span>
-                        </h6>
-                        <input type="hidden" value="COD" name="payment_mode">
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success w-100 ">Place Order</button>
+                            </ul>
                         </div>
-                        {% else %}  
-                        <h4>cart is empt</h4>
-                        {% endif %}
+
+                        <!-- Price Breakdown -->
+                        <div class="p-8">
+                            <div class="flex items-center justify-between text-sm mb-4">
+                                <span class="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Subtotal</span>
+                                <span class="text-gray-900 font-black">${{ total_price|floatformat:2 }}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm mb-8 pb-8 border-b border-gray-100">
+                                <span class="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Shipping</span>
+                                <span class="text-green-600 font-black uppercase tracking-widest text-[10px] bg-green-50 px-3 py-1 rounded-full">Free Express</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-black text-gray-900 uppercase tracking-tighter">Total</span>
+                                <span class="text-4xl font-black text-accent tracking-tighter">${{ total_price|floatformat:2 }}</span>
+                            </div>
+
+                            <!-- Payment Method Selection -->
+                            <div class="mt-10">
+                                <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 text-center">Payment Method</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <label class="relative flex items-center justify-center p-5 border-2 border-accent bg-teal-50/30 rounded-2xl cursor-pointer transition shadow-sm">
+                                        <input type="radio" name="payment_mode" value="COD" checked class="sr-only">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fa-solid fa-hand-holding-dollar text-2xl text-accent mb-2"></i>
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-gray-900">COD</span>
+                                        </div>
+                                        <div class="absolute -top-2 -right-2 w-5 h-5 bg-accent rounded-full flex items-center justify-center shadow-sm">
+                                            <i class="fa-solid fa-check text-[10px] text-white"></i>
+                                        </div>
+                                    </label>
+                                    <label class="relative flex items-center justify-center p-5 border-2 border-gray-100 rounded-2xl opacity-40 cursor-not-allowed">
+                                        <input type="radio" name="payment_mode" value="Online" disabled class="sr-only">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fa-solid fa-credit-card text-2xl text-gray-300 mb-2"></i>
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Card</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mt-8">
+                                <button type="submit" class="w-full bg-gray-900 border border-transparent rounded-[1.5rem] py-5 px-8 flex items-center justify-center text-xl font-black text-white hover:bg-black focus:outline-none focus:ring-4 focus:ring-gray-100 transition duration-300 shadow-2xl shadow-gray-200 uppercase tracking-widest group">
+                                    Place My Order <i class="fa-solid fa-bolt ml-3 group-hover:scale-125 transition"></i>
+                                </button>
+                            </div>
+                            
+                            <p class="mt-6 text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                                <i class="fa-solid fa-shield-halved mr-1 text-accent"></i> Secure checkout powered by E-Shop
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-
-
 {% endblock content %}

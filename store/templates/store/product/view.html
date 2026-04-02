@@ -1,65 +1,145 @@
-
-
 {% extends "store/layout/main.html" %}
-    
-{% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white {% if request.resolver_match.url_name == 'collections' %} active{% endif %}" href=" {% url 'collections' %}">collections /</a>
-        <a class="text-white" href=" {% url 'collectionsview' products.category.slug %}">{{products.category.name}}</a>
-        <a class="text-white" href=" {% url 'productview' products.category.slug products.slug %}">{{products.name}}</a>
 
+{% block title %} {{ products.name }} | E-Shop {% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <a href="{% url 'collections' %}" class="hover:text-accent transition">Collections</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <a href="{% url 'collectionsview' products.category.slug %}" class="hover:text-accent transition uppercase">{{ products.category.name }}</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">{{ products.name }}</span>
     </div>
 </div>
 
+<div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-start product_data">
+            <!-- Image Section -->
+            <div class="flex flex-col">
+                <div class="w-full aspect-square rounded-3xl overflow-hidden shadow-lg border border-gray-100 relative group">
+                    {% if products.product_image %}
+                        <img src="{{ products.product_image.url }}" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                    {% else %}
+                        {% if 'headphones' in products.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% elif 'smartphone' in products.name|lower or 'mobile' in products.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% elif 'jacket' in products.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% elif 'watch' in products.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% elif 'chair' in products.name|lower or 'armchair' in products.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800" alt="{{ products.name }}" class="w-full h-full object-center object-cover group-hover:scale-105 transition duration-500">
+                        {% endif %}
+                    {% endif %}
+                    
+                    {% if products.tag %}
+                    <span class="absolute top-6 left-6 bg-accent text-white px-3 py-1 text-xs font-bold rounded-full uppercase tracking-widest shadow-md">
+                        {{ products.tag }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ products.name }}</h1>
-            <hr>
-            <div class="row">
-                
+            <!-- Product info -->
+            <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-4 sm:space-y-0">
+                    <div>
+                        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">{{ products.name }}</h1>
+                        {% if products.trending %}
+                        <span class="mt-2 inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-600 uppercase tracking-tighter italic">
+                            <i class="fa-solid fa-fire-flame-curved mr-1"></i> Trending Choice
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-4xl font-black text-accent">${{ products.selling_price|floatformat:2 }}</span>
+                        <span class="text-sm text-gray-400 line-through mt-1">${{ products.original_price|floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 border-t border-gray-100 pt-8">
+                    <h3 class="text-lg font-bold text-gray-900 uppercase tracking-wide">About this product</h3>
+                    <div class="mt-4 text-base text-gray-600 leading-relaxed">
+                        {{ products.description|linebreaks }}
+                    </div>
+                </div>
+
+                <div class="mt-8 border-t border-gray-100 pt-8">
+                    <input type="hidden" value="{{ products.id }}" class="prod_id">
+                    {% csrf_token %}
+                    
+                    <div class="flex items-center space-x-12">
+                        <!-- Quantity Selector -->
+                        <div class="flex flex-col space-y-3">
+                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Quantity</label>
+                            <div class="flex items-center border-2 border-gray-100 rounded-2xl overflow-hidden w-36 h-12">
+                                <button class="decrement-btn w-12 h-full flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-600 transition active:scale-95">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input type="text" class="qty-input w-full text-center border-none focus:ring-0 text-gray-900 font-black h-full" value="1" readonly>
+                                <button class="increment-btn w-12 h-full flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-600 transition active:scale-95">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 pt-6">
+                            {% if products.quantity > 0 %}
+                                <div class="flex items-center text-sm font-bold text-green-600 bg-green-50 px-4 py-2 rounded-xl w-fit">
+                                    <span class="relative flex h-3 w-3 mr-2">
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                    </span>
+                                    {{ products.quantity }} items in stock
+                                </div>
+                            {% else %}
+                                <div class="flex items-center text-sm font-bold text-red-600 bg-red-50 px-4 py-2 rounded-xl w-fit">
+                                    <i class="fa-solid fa-circle-xmark mr-2"></i> Out of Stock
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        {% if products.quantity > 0 %}
+                        <button class="addToCartBtn flex-[2] bg-accent border border-transparent rounded-2xl py-5 px-8 flex items-center justify-center text-lg font-black text-white hover:bg-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100 transition duration-300 shadow-xl shadow-teal-100 uppercase tracking-widest">
+                            <i class="fa-solid fa-cart-plus mr-3 text-xl"></i> Add to Cart
+                        </button>
+                        {% endif %}
+                        
+                        <button class="addToWishlist flex-1 bg-white border-2 border-gray-100 rounded-2xl py-5 px-8 flex items-center justify-center text-lg font-black text-gray-700 hover:bg-gray-50 hover:border-accent hover:text-accent focus:outline-none transition duration-300 uppercase tracking-widest group">
+                            <i class="fa-regular fa-heart mr-3 text-xl group-hover:scale-125 transition"></i> Wishlist
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features Cards -->
+                <div class="mt-12 grid grid-cols-2 gap-4">
+                    <div class="p-6 bg-gray-50 rounded-3xl flex flex-col items-center text-center group hover:bg-white hover:shadow-lg transition duration-500">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-shield-heart text-accent text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-gray-900 mb-1">Secure Choice</h4>
+                        <p class="text-xs text-gray-500">Verified Quality & Warranty</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-3xl flex flex-col items-center text-center group hover:bg-white hover:shadow-lg transition duration-500">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-rotate text-accent text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-gray-900 mb-1">Easy Returns</h4>
+                        <p class="text-xs text-gray-500">30-day hassle free returns</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="card product_data" style="width: 18rem;">
-        {% if products.tag %}
-       <label class = "product-viewtag">{{products.tag}}</label>
-    {% endif %}
-    <div class="col-md-2">
-        {% if products.quantity > 0 %}
-          <label class="badge bg-success">In Stock</label>
-        {% else %}
-            <label class="badge bg-danger">Out of Stock </label>
-        {% endif %}
-
-    </div>
-    <img src="{{products.product_image.url}}" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <div class="col-md-4">
-        {% csrf_token %}
-        <input type="hidden" class="prod_id" value="{{ products.id }}" name="">
-        <div>quantity</div>
-            <div class="input-group text-center mb-3" style="width: 130px;">
-                <button class="input-group-text decrement-btn">-</button>
-                <input type="text" name="quantity" class="form-control text-center qty-input" value ="1" id="">
-                <button class="input-group-text increment-btn">+</button>
-                
-            </div>
-      </div>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <div class="col md-4">
-        {% if products.quantity > 0 %}
-            <button type="button" class="btn btn-primary addToCartBtn">add to cart</button>
-        {% endif %}
-        <button type="button" class="btn btn-primary addToWishlist">add to wishlist</button>
-
-      </div>
-      
-    </div>
-</div>
 </div>
 {% endblock content %}

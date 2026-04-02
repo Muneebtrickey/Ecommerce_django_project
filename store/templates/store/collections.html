@@ -1,40 +1,76 @@
-
-
 {% extends "store/layout/main.html" %}
-    
-{% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white {% if request.resolver_match.url_name == 'collections' %} active{% endif %}" href=" {% url 'collections' %}">collections</a>
 
+{% block title %} Collections | E-Shop {% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">Collections</span>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>collectins</h1>
-            <hr>
-            <div class="row">
-                {% for item in category %}
-                    <div class="col-md-3">
-                        <div class="card">
-                            <a href="{% url 'collectionsview' item.slug %}">
 
-                                <div class="card-body">
-                                    <div class="category-image">
-                                        <img src="{{ item.image.url }}" alt="">
-                                    </div>
-                                    <h3 class="text-center"> {{ item.name }} </h3>    
-                                </div>
-                            </a>
-                        </div>
+<div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-base text-accent font-semibold tracking-wide uppercase italic">Our Collections</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl uppercase">
+                Browse by Category
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                Explore our wide range of categories and find exactly what you're looking for.
+            </p>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {% for item in category %}
+            <div class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+                <div class="relative h-80 w-full overflow-hidden">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                    {% else %}
+                        {% if 'electronics' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=800" alt="{{ item.name }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                        {% elif 'fashion' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=800" alt="{{ item.name }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                        {% elif 'home' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=800" alt="{{ item.name }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800" alt="{{ item.name }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                        {% endif %}
+                    {% endif %}
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                </div>
+
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                        <a href="{% url 'collectionsview' item.slug %}">
+                            <span aria-hidden="true" class="absolute inset-0"></span>
+                            {{ item.name }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-600 line-clamp-2 mb-4">
+                        {{ item.description }}
+                    </p>
+                    <div class="flex items-center text-accent font-bold group-hover:translate-x-2 transition duration-300">
+                        Explore Now
+                        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
                     </div>
-                  
-                {% endfor %}
+                </div>
             </div>
+            {% empty %}
+            <div class="col-span-full text-center py-20">
+                <i class="fa-solid fa-folder-open text-6xl text-gray-300 mb-4"></i>
+                <p class="text-xl text-gray-500 italic">No categories found at the moment.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-
 {% endblock content %}

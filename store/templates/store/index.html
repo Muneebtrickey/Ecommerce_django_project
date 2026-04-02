@@ -1,6 +1,122 @@
 {% extends "store/layout/main.html" %}
-    
+
+{% block title %} Home | E-Shop {% endblock %}
+
 {% block content %}
-{% include "store/inc/slider.html" %}
-  <h1>index function</h1>
+<!-- Hero Section -->
+<div class="relative bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polygon points="50,0 100,0 50,100 0,100" />
+            </svg>
+
+            <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                <div class="sm:text-center lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                        <span class="block xl:inline">Upgrade your lifestyle</span>
+                        <span class="block text-accent xl:inline">with E-Shop</span>
+                    </h1>
+                    <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        Discover our exclusive collection of premium products. From electronics to fashion, find everything you need to stand out from the crowd.
+                    </p>
+                    <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                        <div class="rounded-md shadow">
+                            <a href="{% url 'collections' %}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-accent hover:bg-teal-600 md:py-4 md:text-lg md:px-10 transition duration-300">
+                                Shop Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="New Arrival Product">
+    </div>
+</div>
+
+<!-- Trending Products Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Trending Products</h2>
+            <a href="{% url 'collections' %}" class="text-accent font-semibold hover:underline">View All &rarr;</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for item in trending_products %}
+            <div class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden product_data">
+                <div class="relative aspect-square overflow-hidden bg-gray-200 group-hover:opacity-90 transition">
+                    {% if item.product_image %}
+                        <img src="{{ item.product_image.url }}" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                    {% else %}
+                        {% if 'headphones' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'smartphone' in item.name|lower or 'mobile' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'jacket' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'watch' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'chair' in item.name|lower or 'armchair' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% endif %}
+                    {% endif %}
+                    
+                    {% if item.tag %}
+                    <span class="absolute top-4 left-4 bg-accent text-white px-2 py-1 text-xs font-bold rounded uppercase tracking-wider">
+                        {{ item.tag }}
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="p-4">
+                    <h3 class="text-sm font-medium text-gray-900 group-hover:text-accent transition">
+                        <a href="{% url 'productview' item.category.slug item.slug %}">
+                            <span aria-hidden="true" class="absolute inset-0"></span>
+                            {{ item.name }}
+                        </a>
+                    </h3>
+                    <div class="mt-1 flex items-center justify-between">
+                        <div>
+                            <span class="text-lg font-bold text-gray-900">${{ item.selling_price|floatformat:2 }}</span>
+                            <span class="ml-2 text-sm text-gray-500 line-through">${{ item.original_price|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-gray-500 italic col-span-full text-center py-12">No trending products available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Trending Categories Section -->
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-8">Featured Categories</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for item in trending_categories %}
+            <a href="{% url 'collectionsview' item.slug %}" class="relative rounded-2xl overflow-hidden group h-64 shadow-md block">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                {% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-6 left-6">
+                    <h3 class="text-2xl font-bold text-white">{{ item.name }}</h3>
+                    <p class="text-accent text-sm font-medium uppercase tracking-widest mt-1">Explore Collections &rarr;</p>
+                </div>
+            </a>
+            {% empty %}
+            <p class="text-gray-500 italic">No categories featured.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock content %}

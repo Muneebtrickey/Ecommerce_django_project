@@ -1,56 +1,110 @@
 {% extends "store/layout/main.html" %}
 
-{% block content %}
+{% block title %} Register | E-Shop {% endblock %}
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col md 6">
-            <div class="">
-                <div class="card mt-3 shadow">
-                    <div class="card-body">
-                        <form action="" method="POST">
-                            {% csrf_token %}
-                            <div class="text-center">
-                                <h3>Registration</h3>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="">Usernaem :</label>
-                                {{form.username}}
-                                {% if form.errors.username %}
-                                    <label class="text-danger"> {{ form.errors.username }} </label>
-                                {% endif %}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email :</label>
-                                {{form.email}}
-                                {% if form.errors.email %}
-                                     <label class="text-danger"> {{ form.errors.email }} </label>
-                                  {% endif %}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Password :</label>
-                                {{form.password1}}
-                                {% if form.errors.password1 %}
-                                     <label class="text-danger"> {{ form.errors.password1 }} </label>
-                                {% endif %}
-                            </div><div class="form-group">
-                                <label for="">Confirm Password :</label>
-                                {{form.password2}}
-                                {% if form.errors.password2 %}
-                                     <label class="text-danger"> {{ form.errors.password2 }} </label>
-                                {% endif %}
-                            </div>
-                            <button type="submit" class="btn btn-success">Register</button>
-                        </form>
+{% block content %}
+<div class="min-h-[90vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="text-center">
+            <h2 class="text-4xl font-black text-gray-900 tracking-tighter uppercase">Join E-Shop</h2>
+            <p class="mt-2 text-sm text-gray-500 italic">
+                Create an account and start your journey with us
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
+        <div class="bg-white py-10 px-6 shadow-2xl shadow-gray-200 rounded-[2.5rem] border border-gray-100 sm:px-12 relative overflow-hidden">
+            <!-- Decorative element -->
+            <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-accent/5 rounded-full blur-3xl"></div>
+            
+            <form class="space-y-5" action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                
+                <div class="space-y-4">
+                    <!-- Username -->
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Username</label>
+                        {{ form.username }}
+                        {% if form.errors.username %}
+                            <p class="mt-1 text-[10px] text-red-500 font-bold italic">{{ form.errors.username.0 }}</p>
+                        {% endif %}
                     </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Email</label>
+                        {{ form.email }}
+                        {% if form.errors.email %}
+                            <p class="mt-1 text-[10px] text-red-500 font-bold italic">{{ form.errors.email.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Password</label>
+                        {{ form.password1 }}
+                        {% if form.errors.password1 %}
+                            <p class="mt-1 text-[10px] text-red-500 font-bold italic">{{ form.errors.password1.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.errors.password2 %}
+                            <p class="mt-1 text-[10px] text-red-500 font-bold italic">{{ form.errors.password2.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit" class="w-full flex justify-center py-5 px-4 border border-transparent rounded-2xl shadow-xl shadow-teal-50 text-xl font-black text-white bg-accent hover:bg-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100 transition duration-300 uppercase tracking-widest">
+                        Register Now
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-10">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-100"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-400 font-bold uppercase tracking-widest text-[10px]">Already a member?</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <a href="{% url 'loginpage' %}" class="inline-flex items-center font-black text-gray-900 hover:text-accent transition uppercase tracking-widest text-sm">
+                        Sign in instead <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 
-
-
-
+<style>
+    /* Styling Django Form widgets to match Tailwind */
+    input[type="text"], input[type="email"], input[type="password"], textarea, select {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.25rem;
+        border: 2px solid #f1f5f9;
+        border-radius: 1rem;
+        background-color: #f8fafc;
+        box-shadow: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    input:focus {
+        outline: none;
+        border-color: #38b2ac;
+        background-color: #ffffff;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+</style>
 {% endblock content %}

@@ -1,48 +1,84 @@
-
-
 {% extends "store/layout/main.html" %}
-    
-{% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white" href=" {% url 'collections' %}">collections /</a>
-        <a class="text-white" href=" {% url 'collectionsview' category.slug %}">{{category.name}}</a>
 
+{% block title %} {{ category.name }} | E-Shop {% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <a href="{% url 'collections' %}" class="hover:text-accent transition">Collections</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">{{ category.name }}</span>
     </div>
 </div>
 
+<div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl uppercase tracking-tight">{{ category.name }}</h1>
+            <p class="mt-4 text-lg text-gray-500 max-w-3xl italic">{{ category.description }}</p>
+        </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ category.name }}</h1>
-            <hr>
-            <div class="row">
-                {% for item in products %}
-                    <div class="col-md-3">
-                        <div class="card">
-                            
-                                <a href=" {% url 'productview' item.category.slug item.slug %}">
-                                    
-                                    <div class="card-body">
-                                        <div class="category-image">
-                                            <img src="{{ item.product_image.url }}" alt="">
-                                        </div>
-                                        <h3 class="text-center"> {{ item.name }} </h3>  
-                                        <span class="flaot-start">{{item.original_price | stringformat:'d'}}</span>
-                                        <span class="flaot-end">{{item.selling_price | stringformat:'d'}}</span>
-                                    </a>
-                                    
-                                </div>
-                            
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+            {% for item in products %}
+            <div class="group relative flex flex-col product_data bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
+                <div class="relative aspect-square w-full overflow-hidden bg-gray-200 group-hover:opacity-90">
+                    {% if item.product_image %}
+                        <img src="{{ item.product_image.url }}" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                    {% else %}
+                        {% if 'headphones' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'smartphone' in item.name|lower or 'mobile' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'jacket' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'watch' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% elif 'chair' in item.name|lower or 'armchair' in item.name|lower %}
+                            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" alt="{{ item.name }}" class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-500">
+                        {% endif %}
+                    {% endif %}
+                    
+                    {% if item.trending %}
+                    <span class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 text-[10px] font-bold rounded-full uppercase tracking-widest shadow-sm">
+                        Hot
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <div class="flex-1 p-6 flex flex-col">
+                    <h3 class="text-base font-semibold text-gray-900 group-hover:text-accent transition">
+                        <a href="{% url 'productview' item.category.slug item.slug %}">
+                            <span aria-hidden="true" class="absolute inset-0"></span>
+                            {{ item.name }}
+                        </a>
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500 line-clamp-2">{{ item.small_description }}</p>
+                    <div class="mt-auto pt-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-xl font-bold text-gray-900">${{ item.selling_price|floatformat:2 }}</p>
+                            <p class="text-xs text-gray-400 line-through">${{ item.original_price|floatformat:2 }}</p>
+                        </div>
+                        <div class="text-accent">
+                            <i class="fa-solid fa-arrow-right-long group-hover:translate-x-2 transition duration-300"></i>
                         </div>
                     </div>
-                  
-                {% endfor %}
+                </div>
             </div>
+            {% empty %}
+            <div class="col-span-full text-center py-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+                <i class="fa-solid fa-boxes-stacked text-6xl text-gray-300 mb-4"></i>
+                <p class="text-xl text-gray-500 italic">No products found in this category.</p>
+                <a href="{% url 'collections' %}" class="mt-4 inline-block text-accent font-semibold hover:underline">Back to Collections</a>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-
 {% endblock content %}

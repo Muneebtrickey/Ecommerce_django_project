@@ -1,67 +1,147 @@
-
-
 {% extends "store/layout/main.html" %}
-    
+
+{% block title %} Shopping Cart | E-Shop {% endblock %}
+
 {% block content %}
-<div class="py-3 bg-primary">
-    <div class="container">
-        <a class="text-white" href=" {% url 'home' %}">Home /</a>
-        <a class="text-white" href=" {% url 'cart' %}">Cart</a>
-        
+<!-- Breadcrumbs -->
+<div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        <span class="font-semibold text-gray-800">Shopping Cart</span>
     </div>
 </div>
 
-<!-- {% if message %}
-{{ message.success }}
+<div class="py-12 bg-white cartdata">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-10 tracking-tight">Shopping Cart</h1>
 
-  
-{% endif %} -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-body cartdata">
+        {% if cart %}
+        <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
+            <!-- Cart Items -->
+            <div class="lg:col-span-8">
+                <ul role="list" class="border-t border-b border-gray-100 divide-y divide-gray-100">
+                    {% for item in cart %}
+                    <li class="flex py-8 sm:py-10 product_data group">
+                        <div class="flex-shrink-0 relative overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+                            {% if item.product.product_image %}
+                                <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}" class="w-24 h-24 sm:w-40 sm:h-40 object-center object-cover group-hover:scale-105 transition duration-500">
+                            {% else %}
+                                <img src="https://via.placeholder.com/400x400?text={{ item.product.name }}" alt="{{ item.product.name }}" class="w-24 h-24 sm:w-40 sm:h-40 object-center object-cover group-hover:scale-105 transition duration-500">
+                            {% endif %}
+                        </div>
 
-                    {% if cart %}
-                        {% for item in cart %}
-                            <div class="row product_data">
-                                <div class="col-md-2 my-auto">
-                                    <img src="{{ item.product.product_image.url }}" height="70px" width="70px" alt="" srcset="">
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <h6>{{ item.product.name }}</h6>
-                                </div>
-                                <div class="col-md-2 my-auto">
-                                    <h6>{{ item.product.selling_price }}</h6>
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <input type="hidden" name="" class="prod_id" value="{{ item.product_id }}">
-                                    {% csrf_token %}
-                                    {% if item.product.quantity >= item.product_qty %}
-                                    <div class="input-group text-center mb-3" style="width: 130px;">
-                                        <button class="input-group-text changeQuantity decrement-btn">-</button>
-                                        <input type="text" class="text-center form-control qty-input" value="{{ item.product_qty }}">
-                                        <button class="input-group-text changeQuantity increment-btn">+</button>
+                        <div class="ml-4 flex-1 flex flex-col justify-between sm:ml-8">
+                            <div class="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                                <div>
+                                    <div class="flex justify-between">
+                                        <h3 class="text-xl font-black text-gray-900 leading-tight">
+                                            <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="hover:text-accent transition">
+                                                {{ item.product.name }}
+                                            </a>
+                                        </h3>
                                     </div>
-                                    {% else %}
-                                    <h5>Out of stock</h5>
-                                    {% endif %}
+                                    <div class="mt-1 flex text-sm items-center">
+                                        <span class="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-[10px] font-bold uppercase tracking-widest">{{ item.product.category.name }}</span>
+                                    </div>
+                                    <div class="mt-4 flex items-baseline space-x-2">
+                                        <span class="text-2xl font-black text-accent">${{ item.product.selling_price|floatformat:2 }}</span>
+                                        <span class="text-sm text-gray-400 line-through">${{ item.product.original_price|floatformat:2 }}</span>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 my-auto">
-                                    <button class="btn btn-danger delete-cart-item">Remove</button>
+
+                                <div class="mt-6 sm:mt-0 sm:pr-9 flex flex-col justify-between">
+                                    <div class="space-y-3">
+                                        <input type="hidden" value="{{ item.product_id }}" class="prod_id">
+                                        {% csrf_token %}
+                                        
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Adjust Quantity</label>
+                                        {% if item.product.quantity >= item.product_qty %}
+                                        <div class="flex items-center border-2 border-gray-100 rounded-2xl overflow-hidden w-32 h-11 bg-white shadow-sm">
+                                            <button class="changeQuantity decrement-btn w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-500 transition active:scale-90">
+                                                <i class="fa fa-minus text-xs"></i>
+                                            </button>
+                                            <input type="text" class="qty-input w-full text-center border-none focus:ring-0 text-gray-900 font-black text-sm bg-transparent" value="{{ item.product_qty }}" readonly>
+                                            <button class="changeQuantity increment-btn w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-500 transition active:scale-90">
+                                                <i class="fa fa-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                        {% else %}
+                                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold bg-red-50 text-red-600 uppercase italic">
+                                            <i class="fa-solid fa-circle-xmark mr-1"></i> Out of stock
+                                        </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="absolute top-0 right-0 sm:relative sm:top-auto sm:right-auto sm:mt-4">
+                                        <button type="button" class="delete-cart-item flex items-center text-xs font-bold text-gray-400 hover:text-red-500 transition uppercase tracking-widest">
+                                            <i class="fa-solid fa-trash-can mr-1.5"></i> Remove Item
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        {% endfor %}
-                        <a href="{% url 'checkout' %}" class="btn btn-success">Checkkout</a>
-                    {% else %}
-                        <h1>cart is empty</h1>  
-                    {% endif %}
-                
+                            
+                            <p class="mt-4 flex text-xs font-bold items-center">
+                                {% if item.product.quantity >= item.product_qty %}
+                                    <span class="text-green-500 flex items-center bg-green-50 px-2 py-1 rounded-md">
+                                        <i class="fa-solid fa-circle-check mr-1.5"></i> Ready for dispatch
+                                    </span>
+                                {% else %}
+                                    <span class="text-red-500 flex items-center bg-red-50 px-2 py-1 rounded-md">
+                                        <i class="fa-solid fa-circle-exclamation mr-1.5"></i> Insufficient stock
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="mt-16 lg:mt-0 lg:col-span-4 sticky top-24">
+                <div class="bg-gray-50 rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-8">Summary</h2>
                     
+                    <div class="flow-root">
+                        <dl class="-my-4 text-sm divide-y divide-gray-200">
+                            <div class="py-5 flex items-center justify-between">
+                                <dt class="text-gray-500 font-medium">Estimated Shipping</dt>
+                                <dd class="font-bold text-gray-900 uppercase tracking-widest text-[10px] bg-white px-2 py-1 rounded border border-gray-100">Free</dd>
+                            </div>
+                            <div class="py-8 flex items-center justify-between">
+                                <dt class="text-xl font-black text-gray-900">Order Total</dt>
+                                <dd class="text-3xl font-black text-accent tracking-tighter">Calculated at Checkout</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <div class="mt-10">
+                        <a href="{% url 'checkout' %}" class="w-full bg-accent border border-transparent rounded-[1.5rem] py-5 px-8 flex items-center justify-center text-xl font-black text-white hover:bg-teal-600 focus:outline-none focus:ring-4 focus:ring-teal-100 transition duration-300 shadow-2xl shadow-teal-100 uppercase tracking-widest">
+                            Checkout Now <i class="fa-solid fa-arrow-right ml-3"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <a href="{% url 'collections' %}" class="text-xs font-black text-gray-400 hover:text-accent transition uppercase tracking-widest">
+                            &larr; Continue Exploration
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="text-center py-32 bg-gray-50 rounded-[3rem] border-4 border-dashed border-gray-100">
+            <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white shadow-xl mb-10 group">
+                <i class="fa-solid fa-cart-shopping text-5xl text-gray-200 group-hover:text-accent transition duration-500"></i>
+            </div>
+            <h2 class="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">Your cart is deserted</h2>
+            <p class="text-gray-400 mb-12 italic text-lg max-w-md mx-auto leading-relaxed">It's a bit quiet in here. Start filling it up with our latest collections.</p>
+            <a href="{% url 'collections' %}" class="inline-flex items-center px-12 py-5 border border-transparent text-xl font-black rounded-2xl text-white bg-accent hover:bg-teal-600 transition shadow-2xl shadow-teal-100 uppercase tracking-widest">
+                Discover Products
+            </a>
+        </div>
+        {% endif %}
     </div>
-
 </div>
 {% endblock content %}
