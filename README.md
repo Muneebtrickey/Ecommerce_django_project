@@ -12,11 +12,11 @@ A robust, feature-rich e-commerce web application built with Django. This projec
 
 | Home Page | Product Collections |
 | :---: | :---: |
-| ![Home Page](../Screenshots/Homepage.png) | ![Collections](../Screenshots/collectionpage.png) |
+| ![Home Page](Screenshots/Homepage.png) | ![Collections](Screenshots/collectionpage.png) |
 
 | Checkout Process | Modern Admin Dashboard (Jazzmin) |
 | :---: | :---: |
-| ![Checkout](../Screenshots/checkoutprocess.png) | ![Admin Dashboard](../Screenshots/admindashboard.png) |
+| ![Checkout](Screenshots/checkoutprocess.png) | ![Admin Dashboard](Screenshots/admindashboard.png) |
 
 ---
 
@@ -66,8 +66,8 @@ EcomerceDjango/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/EcomerceDjango.git
-cd EcomerceDjango
+git clone https://github.com/Muneebtrickey/Ecommerce_django_project.git
+cd Ecommerce_django_project
 ```
 
 ### 2. Set Up Virtual Environment
@@ -124,6 +124,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-**Your Name** - [your.email@example.com](mailto:your.email@example.com)
+**Muneeb Trickey** - [itsmuneeb566@gmail.com](mailto:itsmuneeb566@gmail.com)
 
-Project Link: [https://github.com/your-username/EcomerceDjango](https://github.com/your-username/EcomerceDjango)
+Project Link: [https://github.com/Muneebtrickey/Ecommerce_django_project](https://github.com/Muneebtrickey/Ecommerce_django_project)
