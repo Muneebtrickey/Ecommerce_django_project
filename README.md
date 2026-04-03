@@ -4,42 +4,36 @@
 [![Python](https://img.shields.io/badge/Python-3.13-3776ab?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.0-563d7c?style=for-the-badge&logo=bootstrap)](https://getbootstrap.com/)
 
-A robust, feature-rich e-commerce web application built with **Django**. This project provides a complete shopping experience, from browsing products and managing a wishlist to a secure checkout process. It features a modern, responsive user interface and a powerful admin dashboard for seamless management.
+A robust, feature-rich e-commerce web application built with Django. This project provides a complete shopping experience, from browsing products and managing a wishlist to a secure checkout process. It features a modern, responsive user interface and a powerful admin dashboard for seamless management.
 
 ---
 
-## 📸 Screenshots
-
-> **Note to Developer:** Replace the placeholders below with your actual screenshots for a truly professional GitHub profile.
+## Screenshots
 
 | Home Page | Product Collections |
 | :---: | :---: |
-| ![Home Page](https://via.placeholder.com/800x450?text=Home+Page+Screenshot) | ![Collections](https://via.placeholder.com/800x450?text=Collections+View+Screenshot) |
+| ![Home Page](../Screenshots/Homepage.png) | ![Collections](../Screenshots/collectionpage.png) |
 
-| Shopping Cart | Checkout Process |
+| Checkout Process | Modern Admin Dashboard (Jazzmin) |
 | :---: | :---: |
-| ![Cart](https://via.placeholder.com/800x450?text=Cart+Screenshot) | ![Checkout](https://via.placeholder.com/800x450?text=Checkout+Screenshot) |
-
-| Modern Admin Dashboard (Jazzmin) |
-| :---: |
-| ![Admin Dashboard](https://via.placeholder.com/1000x500?text=Jazzmin+Admin+Panel+Screenshot) |
+| ![Checkout](../Screenshots/checkoutprocess.png) | ![Admin Dashboard](../Screenshots/admindashboard.png) |
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- **🛍️ Product Discovery:** Browse products by categories, trending items, and SEO-optimized slugs.
-- **❤️ Wishlist System:** Save favorite products for later with a dedicated wishlist management view.
-- **🛒 Dynamic Shopping Cart:** Add, update, and remove items with real-time stock management.
-- **🔐 User Authentication:** Secure registration, login, and logout functionality.
-- **💳 Checkout & Orders:** Comprehensive checkout flow with order history and status tracking (Pending, Out For Shipping, Completed).
-- **🎨 Modern Admin UI:** Enhanced admin panel using `django-jazzmin` for a professional, customizable management experience.
-- **📱 Fully Responsive:** Optimized for all devices using Bootstrap and custom CSS.
-- **🔍 SEO Ready:** Built-in support for meta titles, keywords, and descriptions for categories and products.
+- **Product Discovery:** Browse products by categories, trending items, and SEO-optimized slugs.
+- **Wishlist System:** Save favorite products for later with a dedicated wishlist management view.
+- **Dynamic Shopping Cart:** Add, update, and remove items with real-time stock management.
+- **User Authentication:** Secure registration, login, and logout functionality.
+- **Checkout & Orders:** Comprehensive checkout flow with order history and status tracking (Pending, Out For Shipping, Completed).
+- **Modern Admin UI:** Enhanced admin panel using django-jazzmin for a professional, customizable management experience.
+- **Fully Responsive:** Optimized for all devices using Bootstrap and custom CSS.
+- **SEO Ready:** Built-in support for meta titles, keywords, and descriptions for categories and products.
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **Backend:** Django 4.1.5, Python 3.13
 - **Database:** SQLite (Default), easily migratable to PostgreSQL or MySQL
@@ -49,7 +43,7 @@ A robust, feature-rich e-commerce web application built with **Django**. This pr
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 EcomerceDjango/
@@ -68,7 +62,7 @@ EcomerceDjango/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 ```bash
@@ -106,29 +100,29 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Visit `http://127.0.0.1:8000` to view the site and `http://127.0.0.1:8000/admin` for the admin panel.
+Visit http://127.0.0.1:8000 to view the site and http://127.0.0.1:8000/admin for the admin panel.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
+3. Commit your Changes (git commit -m 'Add some AmazingFeature')
+4. Push to the Branch (git push origin feature/AmazingFeature)
 5. Open a Pull Request
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📧 Contact
+## Contact
 
 **Your Name** - [your.email@example.com](mailto:your.email@example.com)
 

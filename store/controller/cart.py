@@ -37,7 +37,7 @@ def viewcart(request):
     """
     Renders the shopping cart page for the logged-in user.
     """
-    cart = Cart.objects.filter(user=request.user)
+    cart = Cart.objects.filter(user=request.user).select_related('product')
     context = {'cart': cart}
     return render(request, "store/cart.html", context)
 
